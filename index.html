@@ -3,39 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Foundation School - Canada SR</title>
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Rock Solid - Canada SR</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   /* ===================== TOKENS ===================== */
   :root {
-    --orange:   #D42B2B;
-    --orange2:  #BB2020;
-    --navy:     #1B3A8C;
-    --navy2:    #122B6E;
-    --red:      #D42B2B;
-    --cream:    #F0F2F5;
-    --cream2:   #E2E5EC;
-    --pink:     #D42B2B;
-    --pink-bg:  #FDEAEA;
-    --white:    #ffffff;
-    --text:     #1B3A8C;
-    --muted:    #6B7A99;
-    --border:   rgba(27,58,140,0.12);
-    --card-bg:  rgba(27,58,140,0.04);
-    --card-hover: rgba(212,43,43,0.08);
-    --card-active: rgba(212,43,43,0.14);
+    /* BLW Canada Inspired Purple/Cream Palette */
+    --navy: #4C2A92;
+    --navy2: #321B66;
+
+    --gold: #F4BE41;
+    --gold-soft: #FCE7AE;
+
+    --red: #8E63C7;
+    --red-soft: #E9DAFB;
+
+    --pink: #CDB5EA;
+    --pink-soft: #F3ECFB;
+
+    --cream: #F4EFE3;
+    --cream-2: #FBF7EF;
+
+    --ink: #2F2250;
+    --muted: #6F6482;
+
+    --border: #E6DDCC;
+    --white: #FFFFFF;
+
+    --shadow-sm: 0 2px 8px rgba(50, 27, 102, 0.06);
+    --shadow-md: 0 10px 30px rgba(50, 27, 102, 0.10);
+    --shadow-lg: 0 18px 50px rgba(50, 27, 102, 0.14);
+
+    --radius: 18px;
+
+    /* Role Colours */
+    --c-student: #0F766E;
+    --c-cell: #B52A2A;
+    --c-ft: #F4BE41;
+    --c-admin: #4C2A92;
+    --c-teacher: #6D28D9;
+    --c-principal: #321B66;
+    --c-group: #8E63C7;
+    --c-system: #4B5563;
+
+    --c-ok: #059669;
+    --c-warn: #F59E0B;
+    --c-danger: #DC2626;
+
+    /* Backward-compatible aliases used by this page */
+    --orange: var(--red);
+    --orange2: #3A2075;
+    --cream2: #F8F1E4;
+    --pink-bg: var(--pink-soft);
+    --text: var(--navy);
+    --card-bg: rgba(76, 42, 146, 0.05);
+    --card-hover: rgba(142, 99, 199, 0.10);
+    --card-active: rgba(142, 99, 199, 0.14);
     --font-head: 'League Spartan', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-body: 'Nunito', sans-serif;
     --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --radius: 12px;
   }
 
   /* ===================== RESET ===================== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
   body {
-    font-family: var(--font-body);
+    font-family: 'Nunito', sans-serif;
     background: var(--cream);
     color: var(--text);
     overflow: hidden;
@@ -43,18 +77,51 @@
     width: 100vw;
   }
 
+  /* Dashboard style overrides */
+  header{
+    background:var(--white);
+    color:var(--ink);
+    border-bottom:1px solid var(--border);
+  }
+  .hdr-title{
+    color:var(--navy);
+    font-weight:900;
+    letter-spacing:-0.04em;
+  }
+  .hdr-sub{ color:var(--muted); }
+  .toolbar{
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    box-shadow:var(--shadow-sm);
+  }
+  input,
+  select,
+  textarea{
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:white;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus{
+    outline:none;
+    border-color:var(--navy);
+    box-shadow:0 0 0 4px rgba(76,42,146,0.14);
+  }
+
   /* ===================== PROGRESS BAR ===================== */
   .progress-bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 200;
     height: 4px;
-    background: rgba(27,58,140,0.07);
+    background: rgba(76,42,146,0.10);
   }
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #D42B2B, #1B3A8C);
+    background: linear-gradient(90deg, #4C2A92, #F4BE41);
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     width: 0%;
-    box-shadow: 0 0 12px rgba(212,43,43,0.6);
+    box-shadow: 0 0 12px rgba(142,99,199,0.45);
     border-radius: 0 2px 2px 0;
   }
 
@@ -118,9 +185,9 @@
     content: '';
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse at 30% 20%, rgba(212,43,43,0.25) 0%, transparent 55%),
-      radial-gradient(ellipse at 75% 75%, rgba(242,184,198,0.2) 0%, transparent 50%),
-      radial-gradient(ellipse at 10% 85%, rgba(139,58,58,0.3) 0%, transparent 40%);
+      radial-gradient(ellipse at 30% 20%, rgba(244,190,65,0.28) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 75%, rgba(142,99,199,0.28) 0%, transparent 50%),
+      radial-gradient(ellipse at 10% 85%, rgba(50,27,102,0.35) 0%, transparent 40%);
   }
   .intro-left-content {
     position: relative; z-index: 2;
@@ -195,7 +262,7 @@
   }
   .intro-title em {
     font-style: normal;
-    color: var(--orange);
+    color: var(--gold);
   }
   .intro-sub {
     font-family: var(--font-body);
@@ -204,7 +271,7 @@
   }
   .btn-start {
     display: inline-flex; align-items: center; gap: 12px;
-    background: var(--orange);
+    background: var(--navy);
     color: var(--white); font-family: var(--font-head);
     font-size: 15px; font-weight: 800;
     letter-spacing: 0.04em; text-transform: uppercase;
@@ -212,12 +279,12 @@
     cursor: pointer; width: 100%;
     justify-content: center;
     transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s, background 0.2s;
-    box-shadow: 0 6px 28px rgba(212,43,43,0.35);
+    box-shadow: 0 6px 28px rgba(76,42,146,0.30);
   }
   .btn-start:hover {
     background: var(--orange2);
     transform: translateY(-2px);
-    box-shadow: 0 10px 36px rgba(212,43,43,0.45);
+    box-shadow: 0 10px 36px rgba(244,190,65,0.32);
   }
   .btn-start:active { transform: scale(0.98); }
   .btn-start .arrow { font-size: 18px; transition: transform 0.2s; }
@@ -286,6 +353,13 @@
 
   /* ===================== TEXT INPUT ===================== */
   .field-wrap { position: relative; }
+  .name-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 4px;
+  }
+  .name-field .field-input { font-size: clamp(20px, 3vw, 30px); }
   .field-input {
     width: 100%;
     background: transparent;
@@ -297,8 +371,8 @@
     outline: none; caret-color: var(--orange);
     transition: border-color 0.3s;
   }
-  .field-input::placeholder { color: rgba(27,58,140,0.2); }
-  .field-input:focus { border-bottom-color: rgba(212,43,43,0.3); }
+  .field-input::placeholder { color: rgba(76,42,146,0.26); }
+  .field-input:focus { border-bottom-color: rgba(142,99,199,0.55); }
   .field-underline {
     position: absolute; bottom: 0; left: 0;
     height: 2px; background: var(--orange);
@@ -318,14 +392,14 @@
     font-size: 16px; font-weight: 500;
     padding: 16px 20px; outline: none;
     cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F5A623' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234C2A92' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
     transition: border-color 0.3s, box-shadow 0.2s;
   }
   .field-select:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 3px rgba(212,43,43,0.12);
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(76,42,146,0.14);
   }
   .field-select option { background: var(--white); color: var(--navy); }
 
@@ -348,14 +422,14 @@
     user-select: none;
   }
   .radio-label:hover {
-    border-color: rgba(212,43,43,0.4);
+    border-color: rgba(142,99,199,0.55);
     background: var(--card-hover);
   }
   .radio-card input:checked ~ .radio-label {
-    border-color: var(--orange);
+    border-color: var(--gold);
     background: var(--card-active);
     color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(212,43,43,0.12);
+    box-shadow: 0 0 0 3px rgba(244,190,65,0.28);
   }
   .radio-key {
     display: flex; align-items: center; justify-content: center;
@@ -366,8 +440,8 @@
     background: var(--cream2);
   }
   .radio-card input:checked ~ .radio-label .radio-key {
-    border-color: var(--orange); color: var(--orange);
-    background: rgba(212,43,43,0.12);
+    border-color: var(--gold); color: var(--navy);
+    background: rgba(244,190,65,0.20);
   }
 
   /* ===================== FAITH QUESTIONS ===================== */
@@ -412,13 +486,13 @@
     cursor: pointer;
   }
   .class-card-label:hover {
-    border-color: rgba(212,43,43,0.4);
+    border-color: rgba(142,99,199,0.55);
     background: var(--card-hover);
   }
   .class-card input:checked ~ .class-card-label {
-    border-color: var(--orange);
+    border-color: var(--gold);
     background: var(--card-active);
-    box-shadow: 0 0 0 3px rgba(212,43,43,0.12);
+    box-shadow: 0 0 0 3px rgba(244,190,65,0.28);
   }
   .class-name {
     font-family: var(--font-head);
@@ -434,12 +508,12 @@
     font-size: 10px; font-weight: 700;
     letter-spacing: 0.08em; text-transform: uppercase;
     padding: 4px 10px; border-radius: 50px;
-    background: rgba(212,43,43,0.1);
-    color: var(--orange); border: 1px solid rgba(212,43,43,0.2);
+    background: rgba(142,99,199,0.16);
+    color: var(--navy); border: 1px solid rgba(244,190,65,0.36);
   }
   .class-card input:checked ~ .class-card-label .class-badge {
-    background: var(--orange); color: var(--white);
-    border-color: var(--orange);
+    background: var(--gold); color: var(--navy);
+    border-color: var(--gold);
   }
 
   /* ===================== ACTIONS ===================== */
@@ -456,7 +530,7 @@
     padding: 14px 28px; border: none; border-radius: 50px;
     cursor: pointer; position: relative; overflow: hidden;
     transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s, background 0.2s;
-    box-shadow: 0 4px 18px rgba(27,58,140,0.2);
+    box-shadow: 0 4px 18px rgba(50,27,102,0.25);
   }
   .btn-next::after {
     content: '';
@@ -467,12 +541,12 @@
   }
   .btn-next:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(27,58,140,0.3);
-    background: #122B6E;
+    box-shadow: 0 8px 28px rgba(244,190,65,0.30);
+    background: #3A2075;
   }
   .btn-next:active {
     transform: scale(0.97);
-    box-shadow: 0 2px 10px rgba(27,58,140,0.2);
+    box-shadow: 0 2px 10px rgba(50,27,102,0.24);
   }
   .btn-next:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
   .btn-back {
@@ -483,7 +557,7 @@
     border-radius: 50px;
     transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.15s;
   }
-  .btn-back:hover { color: var(--navy); background: var(--cream2); border-color: rgba(27,58,140,0.2); transform: translateX(-2px); }
+  .btn-back:hover { color: var(--navy); background: var(--cream2); border-color: rgba(76,42,146,0.30); transform: translateX(-2px); }
   .btn-back:active { transform: scale(0.97); }
   .enter-hint {
     font-family: var(--font-body);
@@ -506,7 +580,7 @@
   }
   .spinner {
     width: 18px; height: 18px;
-    border: 2px solid rgba(212,43,43,0.2);
+    border: 2px solid rgba(76,42,146,0.22);
     border-top-color: var(--orange);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -517,7 +591,7 @@
     height: 62px;
     border-radius: var(--radius);
     border: 1.5px solid var(--border);
-    background: linear-gradient(90deg, rgba(27,58,140,0.05) 25%, rgba(27,58,140,0.1) 40%, rgba(27,58,140,0.05) 60%);
+    background: linear-gradient(90deg, rgba(76,42,146,0.06) 25%, rgba(142,99,199,0.14) 40%, rgba(76,42,146,0.06) 60%);
     background-size: 200% 100%;
     animation: skeleton-shimmer 1.2s infinite linear;
   }
@@ -554,11 +628,11 @@
   }
   .success-icon {
     width: 88px; height: 88px; margin: 0 auto 24px;
-    background: linear-gradient(135deg, var(--orange), #D42B2B);
+    background: linear-gradient(135deg, #F4BE41, #8E63C7);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 40px;
-    box-shadow: 0 0 0 16px rgba(212,43,43,0.1), 0 0 60px rgba(212,43,43,0.3);
+    box-shadow: 0 0 0 16px rgba(244,190,65,0.22), 0 0 60px rgba(142,99,199,0.30);
     animation: success-pop 0.65s var(--ease-bounce);
   }
   @keyframes success-pop {
@@ -589,7 +663,7 @@
     border: 1px solid var(--border);
     border-radius: 16px; padding: 4px 0;
     margin-bottom: 20px; text-align: left;
-    box-shadow: 0 2px 16px rgba(27,58,140,0.06);
+    box-shadow: 0 2px 16px rgba(50,27,102,0.10);
     animation: fade-up 0.5s 0.35s both var(--ease);
     overflow: hidden;
   }
@@ -615,11 +689,11 @@
     display: flex; align-items: center; gap: 5px;
   }
   .chip::before { font-size: 12px; }
-  .chip.success { background: rgba(39,174,96,0.1); color: #27ae60; border: 1px solid rgba(39,174,96,0.2); }
+  .chip.success { background: rgba(142,99,199,0.14); color: #4C2A92; border: 1px solid rgba(244,190,65,0.38); }
   .chip.success::before { content: '✓'; }
-  .chip.error-chip { background: rgba(192,57,43,0.1); color: #C0392B; border: 1px solid rgba(192,57,43,0.2); }
+  .chip.error-chip { background: rgba(142,99,199,0.10); color: #6A3DAE; border: 1px solid rgba(142,99,199,0.30); }
   .chip.error-chip::before { content: '✕'; }
-  .chip.pending { background: rgba(212,43,43,0.1); color: var(--orange); border: 1px solid rgba(212,43,43,0.2); }
+  .chip.pending { background: rgba(244,190,65,0.24); color: #4C2A92; border: 1px solid rgba(244,190,65,0.40); }
   .chip.pending::before { content: '◉'; }
 
   /* ===================== CONFETTI ===================== */
@@ -638,6 +712,7 @@
 
   /* ===================== MOBILE ===================== */
   @media (max-width: 700px) {
+    .name-grid { grid-template-columns: 1fr; gap: 14px; }
     #screen-intro {
       display: flex;
       flex-direction: column;
@@ -650,7 +725,7 @@
       max-height: 260px;
       padding: 10px 14px 8px;
       background:
-        linear-gradient(175deg, var(--navy) 75%, #e8ecf5 100%);
+        linear-gradient(175deg, var(--navy2) 72%, #E9DEF7 100%);
     }
     .intro-left-content {
       padding: 4px;
@@ -684,8 +759,8 @@
     }
     .intro-pill {
       color: var(--navy);
-      background: rgba(27,58,140,0.07);
-      border: 1.5px solid rgba(27,58,140,0.22);
+      background: rgba(142,99,199,0.14);
+      border: 1.5px solid rgba(142,99,199,0.34);
       font-weight: 600;
       padding: 5px 12px;
     }
@@ -720,10 +795,10 @@
   /* ===================== FOCUS RING ===================== */
   .field-input:focus-visible { outline: none; }
   .btn-next:focus-visible, .btn-back:focus-visible, .btn-start:focus-visible {
-    outline: 2px solid var(--orange); outline-offset: 3px;
+    outline: 2px solid var(--navy); outline-offset: 3px;
   }
   .radio-card input:focus-visible ~ .radio-label {
-    outline: 2px solid var(--orange); outline-offset: 2px;
+    outline: 2px solid var(--navy); outline-offset: 2px;
   }
 
   /* ===================== RADIO CARD TRANSITIONS ===================== */
@@ -787,7 +862,7 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
 <!-- NAV -->
 <div class="nav">
   <div class="nav-logo" id="navLogo">
-    <span class="nav-logo-text">Foundation School</span>
+    <span class="nav-logo-text">Rock Solid</span>
   </div>
   <div class="nav-step" id="navStep"></div>
 </div>
@@ -810,7 +885,7 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
   <!-- RIGHT  CTA content -->
   <div class="intro-right">
     <div class="intro-right-content">
-      <div class="intro-eyebrow">Foundation School</div>
+      <div class="intro-eyebrow">Rock Solid</div>
       <h1 class="intro-title">Start Your<br><em>Journey.</em></h1>
     <!--  <p class="intro-sub">An 8-class discipleship programme to deepen your faith and ground you in the Word. Registration takes less than 2 minutes.</p>
     -->
@@ -823,17 +898,24 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
   </div>
 </div>
 
-<!-- ===== STEP 1: First Name ===== -->
+<!-- ===== STEP 1: Name ===== -->
 <div class="screen" id="screen-1">
   <div class="q-wrap">
     <div class="q-num">01</div>
-    <div class="q-label">What's your first name?</div>
+    <div class="q-label">What's your name?</div>
     <div class="q-hint">Let's start with what we call you.</div>
-    <div class="field-wrap">
-      <input class="field-input" type="text" id="firstName" placeholder="Your first name" autocomplete="given-name" autocapitalize="words">
-      <div class="field-underline"></div>
+    <div class="name-grid">
+      <div class="field-wrap name-field">
+        <input class="field-input" type="text" id="firstName" placeholder="First name" autocomplete="given-name" autocapitalize="words">
+        <div class="field-underline"></div>
+      </div>
+      <div class="field-wrap name-field">
+        <input class="field-input" type="text" id="lastName" placeholder="Last name" autocomplete="family-name" autocapitalize="words">
+        <div class="field-underline"></div>
+      </div>
     </div>
     <div class="field-error" id="err-firstName">Please enter your first name.</div>
+    <div class="field-error" id="err-lastName">Please enter your last name.</div>
     <div class="q-actions">
       <button class="btn-back" onclick="goBack()"> Back</button>
       <button class="btn-next" onclick="nextStep(1)">OK </button>
@@ -842,28 +924,10 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
   </div>
 </div>
 
-<!-- ===== STEP 2: Last Name ===== -->
+<!-- ===== STEP 2: Email ===== -->
 <div class="screen" id="screen-2">
   <div class="q-wrap">
     <div class="q-num">02</div>
-    <div class="q-label" id="label-lastname">And your last name?</div>
-    <div class="field-wrap">
-      <input class="field-input" type="text" id="lastName" placeholder="Your last name" autocomplete="family-name" autocapitalize="words">
-      <div class="field-underline"></div>
-    </div>
-    <div class="field-error" id="err-lastName">Please enter your last name.</div>
-    <div class="q-actions">
-      <button class="btn-back" onclick="goBack()"> Back</button>
-      <button class="btn-next" onclick="nextStep(2)">OK </button>
-      <span class="enter-hint">Press <kbd>Enter </kbd></span>
-    </div>
-  </div>
-</div>
-
-<!-- ===== STEP 3: Email ===== -->
-<div class="screen" id="screen-3">
-  <div class="q-wrap">
-    <div class="q-num">03</div>
     <div class="q-label">Your email address?</div>
     <div class="q-hint">We'll send your confirmation and class details here.</div>
     <div class="field-wrap">
@@ -878,16 +942,16 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
     <div class="field-error" id="err-emailConfirm">Email addresses do not match.</div>
     <div class="q-actions">
       <button class="btn-back" onclick="goBack()"> Back</button>
-      <button class="btn-next" onclick="nextStep(3)">OK </button>
+      <button class="btn-next" onclick="nextStep(2)">OK </button>
       <span class="enter-hint">Press <kbd>Enter </kbd></span>
     </div>
   </div>
 </div>
 
-<!-- ===== STEP 4: Phone ===== -->
-<div class="screen" id="screen-4">
+<!-- ===== STEP 3: Phone ===== -->
+<div class="screen" id="screen-3">
   <div class="q-wrap">
-    <div class="q-num">04</div>
+    <div class="q-num">03</div>
     <div class="q-label">Your phone number?</div>
     <div class="q-hint">Canadian format, e.g. 416-555-0123</div>
     <div class="field-wrap">
@@ -897,18 +961,17 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
     <div class="field-error" id="err-phone">Please enter a valid phone number.</div>
     <div class="q-actions">
       <button class="btn-back" onclick="goBack()">Back</button>
-      <button class="btn-next" onclick="nextStep(4)">OK</button>
+      <button class="btn-next" onclick="nextStep(3)">OK</button>
       <span class="enter-hint">Press <kbd>Enter</kbd></span>
     </div>
   </div>
 </div>
 
-<!-- ===== STEP 5: Faith Questions ===== -->
-<div class="screen" id="screen-5">
+<!-- ===== STEP 4: Faith Questions ===== -->
+<div class="screen" id="screen-4">
   <div class="q-wrap">
-    <div class="q-num">05</div>
+    <div class="q-num">04</div>
     <div class="q-label">A few faith questions</div>
-    <div class="q-hint">These help us place you in the right class.</div>
     <div class="faith-group">
       <div>
         <div class="faith-q-label">Are you born again?</div>
@@ -937,15 +1000,15 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
     <div class="field-error" id="err-faith">Please answer all faith questions.</div>
     <div class="q-actions">
       <button class="btn-back" onclick="goBack()">Back</button>
-      <button class="btn-next" onclick="nextStep(5)">OK</button>
+      <button class="btn-next" onclick="nextStep(4)">OK</button>
     </div>
   </div>
 </div>
 
-<!-- ===== STEP 6: Fellowship ===== -->
-<div class="screen" id="screen-6">
+<!-- ===== STEP 5: Fellowship ===== -->
+<div class="screen" id="screen-5">
   <div class="q-wrap">
-    <div class="q-num">06</div>
+    <div class="q-num">05</div>
     <div class="q-label">Which fellowship are you from?</div>
     <div class="q-hint">Select your campus or fellowship group.</div>
     <div id="fellowship-loading" class="loading-wrap">
@@ -957,15 +1020,15 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
     <div class="field-error" id="err-fellowship">Please select your fellowship.</div>
     <div class="q-actions">
       <button class="btn-back" onclick="goBack()">Back</button>
-      <button class="btn-next" onclick="nextStep(6)">OK</button>
+      <button class="btn-next" onclick="nextStep(5)">OK</button>
     </div>
   </div>
 </div>
 
-<!-- ===== STEP 7: Class Choice ===== -->
-<div class="screen" id="screen-7">
+<!-- ===== STEP 6: Class Choice ===== -->
+<div class="screen" id="screen-6">
   <div class="q-wrap">
-    <div class="q-num">07</div>
+    <div class="q-num">06</div>
     <div class="q-label">Choose your class time</div>
     <div class="q-hint">Pick the schedule that works best for you.</div>
     <div id="class-loading" class="loading-wrap">
@@ -987,7 +1050,7 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
   <div class="success-content">
     <div class="success-icon">🎉</div>
     <div class="success-title">You're in, <span id="success-name"></span>!</div>
-    <p class="success-sub">Welcome to Foundation School. Check your inbox - your class details are on their way.</p>
+    <p class="success-sub">Welcome to Rock Solid. Check your inbox - your class details are on their way.</p>
     <div class="summary-card" id="summary-card"></div>
     <div class="chips-wrap" id="status-chips"></div>
   </div>
@@ -998,7 +1061,7 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
 //  STATE
 // ============================================================
 let currentStep = 0; // 0 = intro
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 6;
 const formData = {};
 let fellowships = [];
 let classes = [];
@@ -1333,7 +1396,11 @@ function refreshFellowshipDropdown() {
   fellowshipLookup = {};
   list.innerHTML = '';
 
-  fellowships.forEach(f => {
+  const sortedFellowships = [...fellowships].sort((a, b) =>
+    String(a?.name || '').localeCompare(String(b?.name || ''), undefined, { sensitivity: 'base' })
+  );
+
+  sortedFellowships.forEach(f => {
     const code = normalizeText(f.code || '');
     const name = normalizeText(f.name || '');
     if (!code || !name) return;
@@ -1569,7 +1636,7 @@ async function nextStep(step) {
   collectData(step);
   currentStep = step + 1;
   if (step < TOTAL_STEPS) {
-    if (step === 5 && (!fellowships || fellowships.length === 0)) {
+    if (step === 4 && (!fellowships || fellowships.length === 0)) {
       if (!classesLoaded) await loadClasses();
       if (!fellowships.length && classes.length) {
         const activeRows = classes.filter(cls => {
@@ -1580,12 +1647,12 @@ async function nextStep(step) {
       }
       refreshFellowshipDropdown();
     }
-    if (step === 6 && !classesLoaded) {
+    if (step === 5 && !classesLoaded) {
       await loadClasses();
     }
     showScreen(step + 1);
-    if (step === 4) await preloadData();
-    if (step === 6) renderClassesForSelectedFellowship();
+    if (step === 3) await preloadData();
+    if (step === 5) renderClassesForSelectedFellowship();
     updateDynamicLabels();
     restoreUIFromState();
     saveTempDraft();
@@ -1648,35 +1715,34 @@ function validateStep(step) {
   const show = id => { const e = document.getElementById(id); if(e) e.classList.add('show'); ok = false; };
 
   if (step === 1) {
-    const v = document.getElementById('firstName').value.trim();
+    const first = document.getElementById('firstName').value.trim();
+    const last = document.getElementById('lastName').value.trim();
     hide('err-firstName');
-    if (!v) show('err-firstName');
-  } else if (step === 2) {
-    const v = document.getElementById('lastName').value.trim();
     hide('err-lastName');
-    if (!v) show('err-lastName');
-  } else if (step === 3) {
+    if (!first) show('err-firstName');
+    if (!last) show('err-lastName');
+  } else if (step === 2) {
     const v = document.getElementById('email').value.trim();
     const c = document.getElementById('emailConfirm').value.trim();
     hide('err-email');
     hide('err-emailConfirm');
     if (!v || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) show('err-email');
     if (!c || v.toLowerCase() !== c.toLowerCase()) show('err-emailConfirm');
-  } else if (step === 4) {
+  } else if (step === 3) {
     const v = document.getElementById('phone').value.trim();
     hide('err-phone');
     if (!v || v.replace(/\D/g,'').length < 10) show('err-phone');
-  } else if (step === 5) {
+  } else if (step === 4) {
     hide('err-faith');
     const ba = document.querySelector('input[name=bornAgain]:checked');
     const to = document.querySelector('input[name=tongues]:checked');
     const wb = document.querySelector('input[name=waterBaptized]:checked');
     if (!ba || !to || !wb) show('err-faith');
-  } else if (step === 6) {
+  } else if (step === 5) {
     hide('err-fellowship');
     const match = resolveFellowshipSelection();
     if (!match) show('err-fellowship');
-  } else if (step === 7) {
+  } else if (step === 6) {
     hide('err-class');
     const sel = document.querySelector('input[name=classChoice]:checked');
     if (!sel && !noClassOptionsShown) show('err-class');
@@ -1688,31 +1754,28 @@ function validateStep(step) {
 //  COLLECT
 // ============================================================
 function collectData(step) {
-  if (step === 1) formData.firstName = document.getElementById('firstName').value.trim();
-  if (step === 2) formData.lastName  = document.getElementById('lastName').value.trim();
-  if (step === 3) {
+  if (step === 1) {
+    formData.firstName = document.getElementById('firstName').value.trim();
+    formData.lastName  = document.getElementById('lastName').value.trim();
+  }
+  if (step === 2) {
     formData.email = document.getElementById('email').value.trim();
     formData.emailConfirm = document.getElementById('emailConfirm').value.trim();
   }
-  if (step === 4) formData.phone     = document.getElementById('phone').value.trim();
-  if (step === 5) {
+  if (step === 3) formData.phone     = document.getElementById('phone').value.trim();
+  if (step === 4) {
     formData.bornAgain     = document.querySelector('input[name=bornAgain]:checked')?.value;
     formData.tongues       = document.querySelector('input[name=tongues]:checked')?.value;
     formData.waterBaptized = document.querySelector('input[name=waterBaptized]:checked')?.value;
   }
-  if (step === 6) {
+  if (step === 5) {
     const match = resolveFellowshipSelection();
     formData.fellowshipCode = match?.code || '';
     formData.fellowshipName = match?.name || '';
   }
 }
 
-function updateDynamicLabels() {
-  if (formData.firstName) {
-    const el = document.getElementById('label-lastname');
-    if (el) el.textContent = `Nice to meet you, ${formData.firstName}! And your last name?`;
-  }
-}
+function updateDynamicLabels() {}
 
 // ============================================================
 //  FELLOWSHIPS
@@ -1957,11 +2020,21 @@ async function submitForm() {
     const proceed = window.confirm('This registration was already submitted in this browser session. Submit again anyway?');
     if (!proceed) return;
   }
-  if (!validateStep(7)) return;
+  if (!validateStep(6)) return;
   const sel = document.querySelector('input[name=classChoice]:checked');
   formData.classChoice = sel?.value || (noClassOptionsShown ? 'NO_CLASS_AVAILABLE' : '');
   formData.classGroup  = sel?.dataset?.group || '';
   formData.classLabel  = sel?.dataset?.label || formData.classChoice;
+  const selectedClass = classes.find(c => String(c.id || '') === String(formData.classChoice || '')) || null;
+  const selectedSession = selectedClass ? formatSessionLocal(selectedClass) : null;
+  const selectedFellowship = fellowships.find(f => String(f.code || '').toLowerCase() === String(formData.fellowshipCode || '').toLowerCase()) || null;
+  const subgroup = String((selectedFellowship && (selectedFellowship.groupId || selectedFellowship.subgroupId)) || '').trim().toUpperCase();
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  const classTimezone = String((selectedClass && selectedClass.timezone) || fellowshipTzMap[String(formData.fellowshipCode || '').toLowerCase()] || browserTimezone || CONFIG.CLASS_TIMEZONE || '').trim();
+  const classTime = selectedSession ? (selectedSession.title || '') : '';
+  const classStartDate = selectedClass ? String(selectedClass.classStartDate || '') : '';
+  const teacherName = selectedClass ? String(selectedClass.teacherName || '') : '';
+  const classId = selectedClass ? String(selectedClass.id || '') : '';
 
   const btn = document.getElementById('btn-submit');
   document.getElementById('submit-text').textContent = 'Submitting';
@@ -1971,8 +2044,16 @@ async function submitForm() {
   const payload = {
     firstName: formData.firstName, lastName: formData.lastName,
     email: formData.email, phone: formData.phone,
+    fellowshipName: formData.fellowshipName || '',
     fellowshipCode: formData.fellowshipCode,
-    classChoice: formData.classLabel,
+    classChoice: formData.classChoice || '',
+    classLabel: formData.classLabel || '',
+    classTime: classTime || '',
+    classStartDate: classStartDate || '',
+    teacherName: teacherName || '',
+    classId: classId || '',
+    subgroup: subgroup || '',
+    timezone: classTimezone || browserTimezone || '',
     availability: formData.availability || (formData.classChoice === 'NONE' ? 'NONE_SELECTED' : ''),
     bornAgain: formData.bornAgain,
     speaksInTongues: formData.tongues,
@@ -2069,7 +2150,7 @@ function showSuccess(chips) {
 // ============================================================
 function launchConfetti() {
   const container = document.getElementById('confetti');
-  const colors = ['#D42B2B','#D42B2B','#1B3A8C','#F0F2F5','#D42B2B','#D42B2B'];
+  const colors = ['#4C2A92','#8E63C7','#F4BE41','#FCE7AE','#321B66','#CDB5EA'];
   for (let i = 0; i < 80; i++) {
     const p = document.createElement('div');
     p.className = 'confetti-piece';
@@ -2134,18 +2215,3 @@ window.addEventListener('load', async () => {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
