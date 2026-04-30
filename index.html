@@ -637,19 +637,40 @@
   }
 
   /* ===================== MOBILE ===================== */
-  @media (max-width: 700px) {
+  @media (max-width: 768px) {
     #screen-intro { flex-direction: column; }
     .intro-left {
       flex: 0 0 auto;
-      min-height: 220px;
-      padding: 24px;
+      min-height: clamp(150px, 34vh, 240px);
+      padding: 16px 18px 22px;
     }
-    .planet-illo { width: 130px; height: 130px; margin-bottom: 0; }
-    .intro-right { flex: 1; padding: 28px 24px 40px; overflow-y: auto; }
+    .intro-left-content { padding: 12px; }
+    .planet-illo { width: 92px; height: 92px; margin-bottom: 8px; }
+    .intro-left-brand { margin-bottom: 8px; }
+    .intro-left-tagline { font-size: 11px; }
+    .intro-right {
+      flex: 1;
+      padding: 14px 22px 20px;
+      margin-top: -16px;
+      border-radius: 18px 18px 0 0;
+      overflow-y: auto;
+    }
     .intro-right-content { max-width: 100%; }
-    .intro-title { font-size: 38px; margin-bottom: 14px; }
-    .intro-sub { font-size: 14px; margin-bottom: 28px; }
-    .nav { padding: 14px 20px; }
+    .intro-eyebrow { margin-bottom: 8px; }
+    .intro-title { font-size: clamp(30px, 10vw, 38px); margin-bottom: 12px; }
+    .intro-sub { font-size: 14px; line-height: 1.55; margin-bottom: 16px; }
+    .btn-start { margin-top: 0; padding: 14px 26px; }
+    .intro-pills {
+      margin-top: 12px;
+      gap: 6px;
+    }
+    .intro-pill {
+      color: var(--navy);
+      background: rgba(27,58,140,0.09);
+      border-color: rgba(27,58,140,0.24);
+      padding: 5px 12px;
+    }
+    .nav { padding: 12px 18px; }
     .screen { padding: 68px 20px 28px; }
     .radio-grid { grid-template-columns: 1fr; }
     .q-actions { flex-wrap: wrap; }
@@ -764,11 +785,7 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
         Register Now <span class="arrow">-></span>
       </button>
 
-      <div class="intro-pills">
-        <span class="intro-pill"> 7 Classes</span>
-        <span class="intro-pill"> 2 min</span>
-        <span class="intro-pill">Canada-wide</span>
-      </div>
+     
     </div>
   </div>
 </div>
@@ -2084,7 +2101,6 @@ window.addEventListener('load', async () => {
 </script>
 </body>
 </html>
-
 
 
 
