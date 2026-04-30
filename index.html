@@ -638,14 +638,19 @@
 
   /* ===================== MOBILE ===================== */
   @media (max-width: 700px) {
-    #screen-intro { flex-direction: column; }
+    #screen-intro {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      overflow: hidden;
+    }
     .intro-left {
-      flex: 0 0 auto;
-      min-height: 136px;
-      max-height: 32vh;
+      flex: 0 0 40vh;
+      min-height: 200px;
+      max-height: 260px;
       padding: 10px 14px 8px;
       background:
-        linear-gradient(to bottom, var(--navy) 0%, var(--navy) 70%, var(--cream) 100%);
+        linear-gradient(175deg, var(--navy) 75%, #e8ecf5 100%);
     }
     .intro-left-content {
       padding: 4px;
@@ -653,24 +658,25 @@
       min-height: 100%;
     }
     .planet-illo {
-      width: 92px;
-      height: 92px;
-      margin-bottom: -12px;
-      animation: none;
+      width: 140px !important;
+      height: 140px !important;
+      margin-bottom: 0 !important;
+      animation: none !important;
     }
     .intro-left-brand { margin-bottom: 0; }
     .intro-left-tagline { font-size: 11px; }
     .intro-right {
       flex: 1;
-      padding: 8px 20px 18px;
+      justify-content: flex-start;
+      padding: 28px 24px 36px;
       margin-top: -14px;
       border-radius: 20px 20px 0 0;
-      overflow-y: auto;
+      overflow: hidden;
     }
     .intro-right-content { max-width: 100%; }
     .intro-eyebrow { margin-bottom: 10px; }
-    .intro-title { font-size: clamp(30px, 9.2vw, 37px); margin-bottom: 28px; }
-    .intro-sub { font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+    .intro-title { font-size: 38px; margin-bottom: 28px; }
+    .intro-sub { font-size: 13px; line-height: 1.5; margin-bottom: 0; }
     .btn-start { margin-top: 0; margin-bottom: 24px; padding: 14px 24px; }
     .intro-pills {
       margin-top: 0;
@@ -2128,8 +2134,6 @@ window.addEventListener('load', async () => {
 </script>
 </body>
 </html>
-
-
 
 
 
