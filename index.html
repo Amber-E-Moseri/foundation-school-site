@@ -637,37 +637,50 @@
   }
 
   /* ===================== MOBILE ===================== */
-  @media (max-width: 768px) {
+  @media (max-width: 700px) {
     #screen-intro { flex-direction: column; }
     .intro-left {
       flex: 0 0 auto;
-      min-height: clamp(150px, 34vh, 240px);
-      padding: 16px 18px 22px;
+      min-height: 136px;
+      max-height: 32vh;
+      padding: 10px 14px 8px;
+      background:
+        linear-gradient(to bottom, var(--navy) 0%, var(--navy) 70%, var(--cream) 100%);
     }
-    .intro-left-content { padding: 12px; }
-    .planet-illo { width: 92px; height: 92px; margin-bottom: 8px; }
-    .intro-left-brand { margin-bottom: 8px; }
+    .intro-left-content {
+      padding: 4px;
+      justify-content: center;
+      min-height: 100%;
+    }
+    .planet-illo {
+      width: 92px;
+      height: 92px;
+      margin-bottom: -12px;
+      animation: none;
+    }
+    .intro-left-brand { margin-bottom: 0; }
     .intro-left-tagline { font-size: 11px; }
     .intro-right {
       flex: 1;
-      padding: 14px 22px 20px;
-      margin-top: -16px;
-      border-radius: 18px 18px 0 0;
+      padding: 8px 20px 18px;
+      margin-top: -14px;
+      border-radius: 20px 20px 0 0;
       overflow-y: auto;
     }
     .intro-right-content { max-width: 100%; }
-    .intro-eyebrow { margin-bottom: 8px; }
-    .intro-title { font-size: clamp(30px, 10vw, 38px); margin-bottom: 12px; }
-    .intro-sub { font-size: 14px; line-height: 1.55; margin-bottom: 16px; }
-    .btn-start { margin-top: 0; padding: 14px 26px; }
+    .intro-eyebrow { margin-bottom: 10px; }
+    .intro-title { font-size: clamp(30px, 9.2vw, 37px); margin-bottom: 28px; }
+    .intro-sub { font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+    .btn-start { margin-top: 0; margin-bottom: 24px; padding: 14px 24px; }
     .intro-pills {
-      margin-top: 12px;
+      margin-top: 0;
       gap: 6px;
     }
     .intro-pill {
       color: var(--navy);
-      background: rgba(27,58,140,0.09);
-      border-color: rgba(27,58,140,0.24);
+      background: rgba(27,58,140,0.07);
+      border: 1.5px solid rgba(27,58,140,0.22);
+      font-weight: 600;
       padding: 5px 12px;
     }
     .nav { padding: 12px 18px; }
@@ -682,6 +695,20 @@
   @media (max-width: 420px) {
     .intro-title { font-size: 32px; }
     .btn-start { font-size: 14px; padding: 15px 28px; }
+    .intro-left {
+      min-height: 132px;
+      padding: 8px 12px 6px;
+    }
+    .planet-illo {
+      width: 84px;
+      height: 84px;
+      margin-bottom: -10px;
+      animation: none;
+    }
+    .intro-right {
+      padding: 6px 18px 14px;
+      margin-top: -16px;
+    }
   }
 
   /* ===================== FOCUS RING ===================== */
@@ -728,7 +755,7 @@
 </head>
 <body>
 <div id="welcome-back-banner" class="q-hint" style="display:none;position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:220;background:var(--white);border:1px solid var(--border);padding:8px 14px;border-radius:999px;">
-  Welcome back, we restored your registration draft.
+  Welcome back!
 </div>
 
 <script>
@@ -2101,8 +2128,6 @@ window.addEventListener('load', async () => {
 </script>
 </body>
 </html>
-
-
 
 
 
