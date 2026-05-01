@@ -682,23 +682,6 @@
   .summary-row:hover { background: var(--cream); }
   .summary-key { font-family: var(--font-body); color: var(--muted); font-weight: 400; font-size: 12px; letter-spacing: 0.04em; }
   .summary-val { font-family: var(--font-head); color: var(--navy); font-weight: 700; font-size: 14px; max-width: 60%; text-align: right; }
-  .chips-wrap {
-    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
-    animation: fade-up 0.5s 0.45s both var(--ease);
-  }
-  .chip {
-    font-family: var(--font-body); font-size: 11px; font-weight: 600;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 7px 16px; border-radius: 50px;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .chip::before { font-size: 12px; }
-  .chip.success { background: rgba(142,99,199,0.14); color: #4C2A92; border: 1px solid rgba(244,190,65,0.38); }
-  .chip.success::before { content: '✓'; }
-  .chip.error-chip { background: rgba(142,99,199,0.10); color: #6A3DAE; border: 1px solid rgba(142,99,199,0.30); }
-  .chip.error-chip::before { content: '✕'; }
-  .chip.pending { background: rgba(244,190,65,0.24); color: #4C2A92; border: 1px solid rgba(244,190,65,0.40); }
-  .chip.pending::before { content: '◉'; }
 
   /* ===================== CONFETTI ===================== */
   .confetti-container {
@@ -1052,8 +1035,7 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
     <div class="q-actions">
       <button class="btn-back" onclick="goBack()">Back</button>
       <button class="btn-next" id="btn-submit" onclick="submitForm()">
-        Submit <span id="submit-spinner" class="spinner" style="display:none;width:14px;height:14px;border-width:2px;"></span>
-        <span id="submit-text"></span>
+        Submit
       </button>
     </div>
   </div>
@@ -1065,7 +1047,6 @@ if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
     <div class="success-title">You're in, <span id="success-name"></span>!</div>
     <p class="success-sub">Welcome to Rock Solid. Check your inbox - your class details are on their way.</p>
     <div class="summary-card" id="summary-card"></div>
-    <div class="chips-wrap" id="status-chips"></div>
   </div>
 </div>
 
@@ -1088,8 +1069,6 @@ const TEMP_DRAFT_KEY = 'fsch_temp_draft_v1';
 const TEMP_DRAFT_TTL_MS = 2 * 60 * 60 * 1000;
 const DATA_CACHE_TTL_MS = 30 * 60 * 1000;
 const CACHE_KEYS = {
-  fellowships: 'fsch_fellowships_v4_bulletproof',
-  classes: 'fsch_classes_v4_bulletproof',
   submitGuard: 'fsch_submitted_guard_v1',
 };
 
@@ -1798,19 +1777,6 @@ async function loadFellowships() {
   fellowships = [];
   fellowshipTzMap = {};
 
-  const cachedFellowships = getCache(CACHE_KEYS.fellowships);
-  if (cachedFellowships) {
-    try {
-      fellowships = Array.isArray(cachedFellowships) ? cachedFellowships : [];
-      fellowshipTzMap = {};
-      fellowships.forEach(f => {
-        fellowshipTzMap[String(f.code || '').toLowerCase()] = String(f.timezone || '').trim();
-      });
-      refreshFellowshipDropdown();
-      return;
-    } catch (_) {}
-  }
-
   if (debug) debug.textContent = '';
   try {
     if (CONFIG.FELLOWSHIP_CSV && !CONFIG.FELLOWSHIP_CSV.startsWith('YOUR_')) {
@@ -1843,7 +1809,6 @@ async function loadFellowships() {
         };
       }).filter(f => f.code && f.name);
       fellowships = parsed;
-      setCache(CACHE_KEYS.fellowships, fellowships);
       fellowshipTzMap = {};
       fellowships.forEach(f => {
         fellowshipTzMap[String(f.code || '').toLowerCase()] = String(f.timezone || '').trim();
@@ -2047,8 +2012,6 @@ async function submitForm() {
   const classId = selectedClass ? String(selectedClass.id || '') : '';
 
   const btn = document.getElementById('btn-submit');
-  document.getElementById('submit-text').textContent = 'Submitting';
-  document.getElementById('submit-spinner').style.display = 'inline-block';
   btn.disabled = true;
 
   const payload = {
@@ -2071,54 +2034,12 @@ async function submitForm() {
     submittedAt: new Date().toISOString(),
   };
 
-  let sheetsOk = false, moodleOk = false, mailchimpOk = false, mailchimpReason = '';
-
-  try {
-    if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
-      const res = await fetch(CONFIG.APPS_SCRIPT_URL, { method:'POST', mode:'cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
-      if (!res.ok) throw new Error('Sheet API request failed');
-      const data = await res.json();
-      sheetsOk = !!data?.ok;
-      mailchimpOk = !!data?.mailchimpOk;
-      mailchimpReason = String(data?.mailchimpReason || '');
-    }
-  } catch { sheetsOk = false; mailchimpOk = false; mailchimpReason = 'request_error'; }
-
-  try {
-    if (CONFIG.MOODLE_URL && !CONFIG.MOODLE_URL.startsWith('YOUR_') && formData.classGroup) {
-      const courseId = CONFIG.MOODLE_COURSE_IDS[formData.classGroup];
-      const createRes = await fetch(`${CONFIG.MOODLE_URL}/webservice/rest/server.php`, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams({ wstoken:CONFIG.MOODLE_TOKEN, wsfunction:'core_user_create_users', moodlewsrestformat:'json', 'users[0][username]':formData.email.toLowerCase().replace(/[^a-z0-9]/g,'_'), 'users[0][password]':'FoundationSchool2024!', 'users[0][firstname]':formData.firstName, 'users[0][lastname]':formData.lastName, 'users[0][email]':formData.email }) });
-      const createData = await createRes.json();
-      const userId = createData[0]?.id;
-      if (userId && courseId) {
-        await fetch(`${CONFIG.MOODLE_URL}/webservice/rest/server.php`, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams({ wstoken:CONFIG.MOODLE_TOKEN, wsfunction:'enrol_manual_enrol_users', moodlewsrestformat:'json', 'enrolments[0][roleid]':'5', 'enrolments[0][userid]':userId, 'enrolments[0][courseid]':courseId }) });
-        moodleOk = true;
-      }
-    } else { moodleOk = true; }
-  } catch { }
-
-  const chips = [];
-  chips.push(sheetsOk ? {label:'Registration Saved',type:'success'} : {label:'Sheet Sync Failed',type:'error-chip'});
-  chips.push(
-    mailchimpOk
-      ? {label:'Mailchimp Subscribed',type:'success'}
-      : {label:`Mailchimp Pending${mailchimpReason ? ` (${mailchimpReason})` : ''}`,type:'pending'}
-  );
-  chips.push(moodleOk ? {label:'Moodle Enrolled',type:'success'} : {label:'Moodle Pending',type:'pending'});
-  // Always clear the draft after a submit attempt — whether or not the sheet
-  // call succeeded — so the "welcome back" banner never shows on a fresh load
-  // after the user has already gone through the form.
+  // Show success immediately — API calls run in the background
   clearTempDraft();
+  showSuccess();
+  sessionStorage.setItem(CACHE_KEYS.submitGuard, '1');
 
-  showSuccess(chips);
-
-  if (sheetsOk) {
-    sessionStorage.setItem(CACHE_KEYS.submitGuard, '1');
-  }
-
-  // Reset all in-memory state regardless of API outcome
-  sessionStorage.removeItem(CACHE_KEYS.fellowships);
-  sessionStorage.removeItem(CACHE_KEYS.classes);
+  // Reset all in-memory state
   Object.keys(formData).forEach(k => delete formData[k]);
   currentStep = 0;
   fellowships = [];
@@ -2126,12 +2047,32 @@ async function submitForm() {
   classes = [];
   classesLoaded = false;
   noClassOptionsShown = false;
+
+  // Fire-and-forget API calls
+  (async () => {
+    try {
+      if (CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith('YOUR_')) {
+        await fetch(CONFIG.APPS_SCRIPT_URL, { method:'POST', mode:'cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
+      }
+    } catch {}
+    try {
+      if (CONFIG.MOODLE_URL && !CONFIG.MOODLE_URL.startsWith('YOUR_') && payload.classGroup) {
+        const courseId = CONFIG.MOODLE_COURSE_IDS[payload.classGroup];
+        const createRes = await fetch(`${CONFIG.MOODLE_URL}/webservice/rest/server.php`, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams({ wstoken:CONFIG.MOODLE_TOKEN, wsfunction:'core_user_create_users', moodlewsrestformat:'json', 'users[0][username]':payload.email.toLowerCase().replace(/[^a-z0-9]/g,'_'), 'users[0][password]':'FoundationSchool2024!', 'users[0][firstname]':payload.firstName, 'users[0][lastname]':payload.lastName, 'users[0][email]':payload.email }) });
+        const createData = await createRes.json();
+        const userId = createData[0]?.id;
+        if (userId && courseId) {
+          await fetch(`${CONFIG.MOODLE_URL}/webservice/rest/server.php`, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams({ wstoken:CONFIG.MOODLE_TOKEN, wsfunction:'enrol_manual_enrol_users', moodlewsrestformat:'json', 'enrolments[0][roleid]':'5', 'enrolments[0][userid]':userId, 'enrolments[0][courseid]':courseId }) });
+        }
+      }
+    } catch {}
+  })();
 }
 
 // ============================================================
 //  SUCCESS
 // ============================================================
-function showSuccess(chips) {
+function showSuccess() {
   document.getElementById('success-name').textContent = formData.firstName;
   document.getElementById('progressFill').style.width = '100%';
   const stepEl = document.getElementById('navStep');
@@ -2149,8 +2090,6 @@ function showSuccess(chips) {
     `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>`
   ).join('');
 
-  const chipsEl = document.getElementById('status-chips');
-  chipsEl.innerHTML = chips.map(c => `<span class="chip ${c.type}">${c.label}</span>`).join('');
   showScreen('success');
   launchConfetti();
 }
