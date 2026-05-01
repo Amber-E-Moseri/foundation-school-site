@@ -315,6 +315,8 @@
     pointer-events: none;
     transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
   }
+  /* Tall-content screens scroll their q-wrap internally */
+  #screen-4 { align-items: flex-start; overflow-y: auto; padding-top: 72px; }
   .screen.active {
     opacity: 1; transform: translateY(0);
     pointer-events: auto;
@@ -329,7 +331,9 @@
   }
 
   /* ===================== QUESTION WRAP ===================== */
-  .q-wrap { max-width: 620px; width: 100%; }
+  .q-wrap {
+    max-width: 620px; width: 100%;
+  }
   .q-num {
     font-family: var(--font-body);
     font-size: 11px; font-weight: 600;
@@ -445,13 +449,13 @@
   }
 
   /* ===================== FAITH QUESTIONS ===================== */
-  .faith-group { display: grid; gap: 4px; }
+  .faith-group { display: grid; gap: 10px; }
   .faith-q-label {
     font-family: var(--font-body);
     font-size: 11px; font-weight: 600;
     color: var(--muted);
     text-transform: uppercase; letter-spacing: 0.1em;
-    margin-bottom: 6px; margin-top: 16px;
+    margin-bottom: 6px; margin-top: 12px;
   }
 
   /* Step 5 only — compact 3-column radio layout */
@@ -765,9 +769,18 @@
       padding: 5px 12px;
     }
     .nav { padding: 12px 18px; }
-    .screen { padding: 68px 20px 28px; }
+    .screen { padding: 64px 18px 20px; }
+    #screen-4 { padding-top: 64px; }
+    .q-wrap {
+      padding-bottom: 12px;
+    }
     .radio-grid { grid-template-columns: 1fr; }
-    .q-actions { flex-wrap: wrap; }
+    /* Faith questions: keep radio options as single column, tighten spacing */
+    #screen-4 .faith-group { gap: 6px; }
+    #screen-4 .faith-q-label { margin-top: 8px; }
+    #screen-4 .radio-grid { grid-template-columns: 1fr; gap: 6px; }
+    #screen-4 .radio-label { padding: 11px 14px; font-size: 14px; }
+    .q-actions { flex-wrap: wrap; margin-top: 20px; }
     .enter-hint { display: none; }
     .lp-logo-name { font-size: 18px; }
     .q-label { font-size: clamp(24px, 7vw, 36px); }
@@ -1122,11 +1135,14 @@ async function fetchWithRetry(url, options = {}, retries = 2, delayMs = 300) {
 
 function saveTempDraft() {
   try {
+    // Deliberately exclude fellowship & class selections — those should always
+    // be made fresh each session so stale options are never silently re-used.
+    const { fellowshipCode, fellowshipName, classChoice, classLabel, classGroup, ...saveable } = formData;
     const payload = {
       savedAt: Date.now(),
       expiresAt: Date.now() + TEMP_DRAFT_TTL_MS,
-      currentStep,
-      formData,
+      currentStep: Math.min(currentStep, 4), // cap at step 4 (before fellowship)
+      formData: saveable,
     };
     sessionStorage.setItem(TEMP_DRAFT_KEY, JSON.stringify(payload));
   } catch (_) {}
@@ -1235,14 +1251,8 @@ function restoreUIFromState() {
     });
   }
 
-  const fellowship = byId('fellowship');
-  if (fellowship && formData.fellowshipCode) fellowship.value = formData.fellowshipCode;
-
-  if (formData.classChoice) {
-    document.querySelectorAll('input[name=classChoice]').forEach(el => {
-      el.checked = el.value === formData.classChoice;
-    });
-  }
+  // Fellowship and class choice are intentionally NOT restored from draft —
+  // users should always pick these fresh to avoid stale selections.
 }
 function parseCsvRow(line) {
   const out = [];
